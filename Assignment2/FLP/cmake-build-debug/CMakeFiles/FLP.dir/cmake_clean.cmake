@@ -1,9 +1,11 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/FLP.dir/DataLoader.cpp.o"
-  "CMakeFiles/FLP.dir/EAMLS.cpp.o"
-  "CMakeFiles/FLP.dir/main.cpp.o"
-  "FLP"
+  "CMakeFiles/FLP.dir/DataLoader.cpp.obj"
+  "CMakeFiles/FLP.dir/EAMLS.cpp.obj"
+  "CMakeFiles/FLP.dir/main.cpp.obj"
+  "FLP.exe"
+  "FLP.exe.manifest"
   "FLP.pdb"
+  "libFLP.dll.a"
 )
 
 # Per-language clean rules from dependency scanning.

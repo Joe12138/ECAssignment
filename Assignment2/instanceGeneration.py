@@ -49,7 +49,7 @@ if __name__ == '__main__':
     0:iSitesNum, 1:iScenNum, 2:iDemandLB, 3:iDemandUB, 4:iFixedCostLB, 5:iFixedCostUP, 6:iCoordinateLB, 7:iCoordinateUB, 8:fFaciFailProb
     '''
     iInsNum = 8
-    iSitesNum = 600
+    iSitesNum = 100
     iScenNum = 1
     iDemandLB = 0
     iDemandUB = 1000
@@ -59,19 +59,41 @@ if __name__ == '__main__':
     iCoordinateUB = 1
     fFaciFailProb = 0.05
     listPara = [iSitesNum, iScenNum, iDemandLB, iDemandUB, iFixedCostLB, iFixedCostUB, iCoordinateLB, iCoordinateUB, fFaciFailProb]
-    f = open('600-nodeInstances', 'wb')
-    for i in range(iInsNum):
-        generateInstances = Instances(listPara)
-        generateInstances.funGenerateInstances()
-        pickle.dump(generateInstances, f)
-    f.close()
-    # test: read two instances from the file
-    f = open('600-nodeInstances', 'rb')
-    ins1 = pickle.load(f)
-    ins2 = pickle.load(f)
-    print(ins1.aiFixedCost)
-    print(ins2.aiFixedCost)
-    print("trans cost: \n", generateInstances.af_2d_TransCost)
-    print("fixed cost: \n", generateInstances.aiFixedCost)
-    print("coordinate: \n", generateInstances.a_2d_SitesCoordi)
-    print("demands: \n", self.iScenNum.aiDemands)
+    # f = open('600-nodeInstances', 'wb', encoding='UTF-8')
+    for k in range(iInsNum):
+        file_name = './FLP/Instance/{}_{}.txt'.format(iSitesNum, k)
+        with open(file_name, 'w', encoding='UTF-8') as f:
+            generateInstances = Instances(listPara)
+            generateInstances.funGenerateInstances()
+
+            f.write('siteNum={}\n'.format(str(generateInstances.iSitesNum)))
+            f.write('demandLowerBound={}\n'.format(str(generateInstances.iDemandLB)))
+            f.write('demandUpperBound={}\n'.format(str(generateInstances.iDemandUB)))
+            f.write('fixedCostLowerBound={}\n'.format(str(generateInstances.iFixedCostLB)))
+            f.write('fixedCostUpperBound={}\n'.format(str(generateInstances.iFixedCostUB)))
+            f.write('coordinateLowerBound={}\n'.format(str(generateInstances.iCoordinateLB)))
+            f.write('coordinateUpperBound={}\n'.format(str(generateInstances.iCoordinateUB)))
+            f.write('facilityFailProbility={}\n'.format(str(generateInstances.fFaciFailProb)))
+
+            f.write('Coordinate: index, x, y\n')
+            for i in range(generateInstances.iSitesNum):
+                f.write("{},{},{}\n".format(str(i), str(generateInstances.a_2d_SitesCoordi[i][0]), str(generateInstances.a_2d_SitesCoordi[i][1])))
+            
+            f.write("Demand:index, demand\n")
+            for i in range(generateInstances.iSitesNum):
+                f.write("{},{}\n".format(str(i), str(generateInstances.aiDemands[i])))
+
+            f.write("Fixcost:index, fixedCost\n")
+            for i in range(generateInstances.iSitesNum):
+                f.write("{},{}\n".format(str(i), str(generateInstances.aiFixedCost[i])))
+
+            f.write('TransCost:start_index, end_index, transCost\n')
+            for i in range(generateInstances.iSitesNum):
+                for j in range(generateInstances.iSitesNum):
+                    if i!=j:
+                        f.write("{},{},{}\n".format(str(i), str(j), str(generateInstances.af_2d_TransCost[i][j])))
+
+
+
+
+

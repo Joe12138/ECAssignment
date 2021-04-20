@@ -1,1 +1,3 @@
-/usr/bin/c++  -g   CMakeFiles/FLP.dir/main.cpp.o CMakeFiles/FLP.dir/EAMLS.cpp.o CMakeFiles/FLP.dir/DataLoader.cpp.o  -o FLP 
+"D:\CLion 2019.3.1\bin\cmake\win\bin\cmake.exe" -E rm -f CMakeFiles\FLP.dir/objects.a
+D:\MinGW\bin\ar.exe cr CMakeFiles\FLP.dir/objects.a @CMakeFiles\FLP.dir\objects1.rsp
+D:\MinGW\bin\g++.exe -g -Wl,--whole-archive CMakeFiles\FLP.dir/objects.a -Wl,--no-whole-archive -o FLP.exe -Wl,--out-implib,libFLP.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\FLP.dir\linklibs.rsp

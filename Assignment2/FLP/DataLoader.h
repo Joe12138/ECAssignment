@@ -6,10 +6,12 @@
 #define FLP_DATALOADER_H
 #include <iostream>
 #include <unordered_map>
+#include <string>
 
 using namespace std;
 
 class DataLoader {
+public:
     typedef struct site_info{
         double x_coordinate;
         double y_coordinate;
@@ -26,12 +28,14 @@ class DataLoader {
                 }
     };
 
-    int site_num;
-    double fail_prob;
+    int site_num{};
+    double fail_prob{};
     unordered_map<int, SITE_INFO > site_info_map;
     unordered_map<pair<int, int>, double, pair_hash> site_transCost_map;
 
+    explicit DataLoader(const string& file_path);
 
+    void read_file(const string& file_path);
 };
 
 
