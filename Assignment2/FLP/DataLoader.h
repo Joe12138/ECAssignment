@@ -7,6 +7,7 @@
 #include <iostream>
 #include <unordered_map>
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -36,6 +37,8 @@ public:
     explicit DataLoader(const string& file_path);
 
     void read_file(const string& file_path);
+
+    static void split_str(const string& str, const string & pattern, vector<string> & result);
 };
 
 

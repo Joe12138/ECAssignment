@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+G:/EvolutionaryAlgorithm/ECAssignment/Assignment2/FLP/DataLoader.cpp
+fstream
+-
+DataLoader.h
+G:/EvolutionaryAlgorithm/ECAssignment/Assignment2/FLP/DataLoader.h
+
+G:/EvolutionaryAlgorithm/ECAssignment/Assignment2/FLP/DataLoader.h
+iostream
+-
+unordered_map
+-
+string
+-
+vector
+-
+
