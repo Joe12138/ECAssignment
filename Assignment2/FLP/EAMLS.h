@@ -26,6 +26,9 @@ public:
     void init_pop(int p_size, int n_site);
     double calculate_fitness(vector<unsigned char> &solution, double alpha, int m);
     void readjust_single_solution_order(int solution_index);
+    void get_all_solution_order_map();
+
+    static bool pair_cmp(const pair<int, double> &x, const pair<int, double> &y);
 };
 
 
