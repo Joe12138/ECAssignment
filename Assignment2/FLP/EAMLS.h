@@ -69,13 +69,14 @@ public:
                                 unordered_map<int, double> &parent_index_fitness_map,
                                 unordered_map<int, double> &mutation_index_fitness_map);
 
-    void EA_with_MLS(int generation_num, double mutation_rate, double beta, double step_size, int n);
+    void EA_with_MLS(int generation_num, double mutation_rate, double beta, int step_size, int n);
 
     double get_l3_value(unordered_map<int, vector<unsigned char> > & pop_after_selection,
-                        unordered_set<vector<unsigned char>, vector_hash> &all_neighbor_inds);
+                        unordered_set<vector<unsigned char>, vector_hash> &all_neighbor_inds) const;
 
-    void survival_selection(unordered_map<int, vector<unsigned char> > & mutation_pop,
-                            unordered_set<vector<unsigned char>, vector_hash > & ls_pop);
+    void survival_selection(unordered_map<int, vector<unsigned char>> &mutation_pop,
+                            unordered_set<vector<unsigned char>, vector_hash> &ls_pop,
+                            unordered_map<int, double> &mutation_index_fitness_map, double alpha);
 
 };
 

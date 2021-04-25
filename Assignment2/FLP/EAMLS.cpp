@@ -55,7 +55,10 @@ int EAMLS::readjust_single_solution_order(const vector<unsigned char> &solution,
          // The vector to store facility and its corresponding distance
          vector<pair<int, double> > facility_dist_vector;
          for(int & j : candidate_facility){
-             double dist = this->m_dataLoader.site_transCost_map.find(make_pair(i, j))->second;
+             double dist = 0;
+             if(i!=j){
+                 dist = this->m_dataLoader.site_transCost_map.find(make_pair(i, j))->second;
+             }
             facility_dist_vector.emplace_back(j, dist);
          }
 
@@ -249,7 +252,7 @@ void EAMLS::get_all_neighbor(const vector<unsigned char> &solution,
 }
 
 double EAMLS::get_l3_value(unordered_map<int, vector<unsigned char>> &pop_after_selection,
-                           unordered_set<vector<unsigned char>, vector_hash> &all_neighbor_inds) {
+                           unordered_set<vector<unsigned char>, vector_hash> &all_neighbor_inds) const {
     int num = 0;
     for(const auto & it: pop_after_selection){
         const auto & s_it = all_neighbor_inds.find(it.second);
@@ -262,25 +265,81 @@ double EAMLS::get_l3_value(unordered_map<int, vector<unsigned char>> &pop_after_
 }
 
 void EAMLS::survival_selection(unordered_map<int, vector<unsigned char>> &mutation_pop,
-                               unordered_set<vector<unsigned char>, vector_hash> &ls_pop) {
+                               unordered_set<vector<unsigned char>, vector_hash> &ls_pop,
+                               unordered_map<int, double> &mutation_index_fitness_map, double alpha) {
+    unordered_map<int, vector<unsigned char> > total_solution;
+    vector<pair<int, double> > index_fitness_vector;
+    int solution_index = 0;
+    for(const auto & s_it: this->pop){
+        total_solution.emplace(solution_index, s_it.second);
+        const auto f_it = this->index_fitness_map.find(s_it.first);
+        index_fitness_vector.emplace_back(make_pair(solution_index, f_it->second));
+        solution_index += 1;
+    }
+    for(const auto & s_it: mutation_pop){
+        total_solution.emplace(solution_index, s_it.second);
+        const auto f_it = mutation_index_fitness_map.find(s_it.first);
+        index_fitness_vector.emplace_back(make_pair(solution_index, f_it->second));
+        solution_index += 1;
+    }
 
+    for(const auto & s_it: ls_pop){
+        total_solution.emplace(solution_index, s_it);
+        double fitness = this->calculate_fitness(s_it, alpha, false, -1);
+        index_fitness_vector.emplace_back(make_pair(solution_index, fitness));
+        solution_index += 1;
+    }
+
+    sort(index_fitness_vector.begin(), index_fitness_vector.end(), pair_cmp);
+
+    this->pop.clear();
+    this->index_fitness_map.clear();
+    for(int i=0; i<this->pop_size; i++){
+        const auto s_it = total_solution.find(index_fitness_vector[i].first);
+        this->pop.emplace(i, s_it->second);
+        this->index_fitness_map.emplace(i, index_fitness_vector[i].second);
+    }
 }
 
-void EAMLS::EA_with_MLS(int generation_num, double mutation_rate, double beta, double step_size, int n) {
+void EAMLS::EA_with_MLS(int generation_num, double mutation_rate, double beta, int step_size, int n) {
     this->init_pop(this->pop_size, this->num_site);
-    unordered_set<vector<unsigned char>, vector_hash > all_neighbor_inds;
+    unordered_set<vector<unsigned char>, vector_hash> all_neighbor_inds;
 //    unordered_map<int, double> index_fitness
     this->evaluate_pop(this->pop, this->index_fitness_map, this->alpha_value);
 
     unordered_map<int, vector<unsigned char> > pop_after_mutation;
-    unordered_map<int, double> solution_index_fitness_map;
+    unordered_map<int, double> mutation_index_fitness_map;
     for(int i=0; i<generation_num; i++){
         this->mutation(mutation_rate, pop_after_mutation);
-        this->evaluate_pop(pop_after_mutation, solution_index_fitness_map, this->alpha_value);
-        EAMLS::memorable_local_search(this->pop, pop_after_mutation, n, all_neighbor_inds,
-                                      this->index_fitness_map, solution_index_fitness_map);
+        this->evaluate_pop(pop_after_mutation, mutation_index_fitness_map, this->alpha_value);
+        unordered_set<vector<unsigned char >, vector_hash> ls_offspring;
+        EAMLS::memorable_local_search(this->pop, pop_after_mutation, n, ls_offspring,
+                                      this->index_fitness_map, mutation_index_fitness_map);
 
+        this->survival_selection(pop_after_mutation, ls_offspring, mutation_index_fitness_map,
+                                 this->alpha_value);
+        double l3_value = this->get_l3_value(this->pop, all_neighbor_inds);
+        if(l3_value > beta){
+            this->pop_size += step_size;
+        }
 
+        for(const auto& solution: ls_offspring){
+            all_neighbor_inds.emplace(solution);
+        }
+    }
+
+    vector<pair<int, double> > s_f_vector;
+    for(const auto & it: this->index_fitness_map){
+        s_f_vector.emplace_back(make_pair(it.first, it.second));
+    }
+    sort(s_f_vector.begin(), s_f_vector.end(), pair_cmp);
+
+    cout << s_f_vector[0].first << "=" << 1/s_f_vector[0].second << endl;
+
+    const auto & best_solution = this->pop.find(s_f_vector[0].first);
+
+    for(unsigned char i: best_solution->second){
+        cout << (int)i << ", ";
     }
 }
 

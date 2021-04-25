@@ -7,7 +7,7 @@
 
 DataLoader::DataLoader(const string& file_path) {
     read_file(file_path);
-//    cout << "Test" << endl;
+    cout << "Test" << endl;
 }
 
 void DataLoader::read_file(const string &file_path) {
