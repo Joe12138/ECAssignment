@@ -6,12 +6,6 @@
 
 #IncludeRegexTransform: 
 
-G:/EvolutionaryAlgorithm/ECAssignment/Assignment2/FLP/DataLoader.cpp
-fstream
--
-DataLoader.h
-G:/EvolutionaryAlgorithm/ECAssignment/Assignment2/FLP/DataLoader.h
-
 G:/EvolutionaryAlgorithm/ECAssignment/Assignment2/FLP/DataLoader.h
 iostream
 -
@@ -21,4 +15,26 @@ string
 -
 vector
 -
+
+G:/EvolutionaryAlgorithm/ECAssignment/Assignment2/FLP/EAMLS.h
+DataLoader.h
+G:/EvolutionaryAlgorithm/ECAssignment/Assignment2/FLP/DataLoader.h
+random
+-
+vector
+-
+ctime
+-
+cmath
+-
+unordered_set
+-
+
+G:/EvolutionaryAlgorithm/ECAssignment/Assignment2/FLP/main.cpp
+iostream
+-
+DataLoader.h
+G:/EvolutionaryAlgorithm/ECAssignment/Assignment2/FLP/DataLoader.h
+EAMLS.h
+G:/EvolutionaryAlgorithm/ECAssignment/Assignment2/FLP/EAMLS.h
 
