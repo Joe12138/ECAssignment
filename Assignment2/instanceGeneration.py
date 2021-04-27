@@ -49,7 +49,7 @@ if __name__ == '__main__':
     0:iSitesNum, 1:iScenNum, 2:iDemandLB, 3:iDemandUB, 4:iFixedCostLB, 5:iFixedCostUP, 6:iCoordinateLB, 7:iCoordinateUB, 8:fFaciFailProb
     '''
     iInsNum = 8
-    iSitesNum = 100
+    iSitesNum = 30
     iScenNum = 1
     iDemandLB = 0
     iDemandUB = 1000

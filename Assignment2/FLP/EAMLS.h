@@ -27,6 +27,7 @@ private:
     int num_site;
     double alpha_value = 1.0;
 
+
     struct vector_hash{
         size_t operator()(const vector<unsigned char> & v) const{
             hash<unsigned char> hasher;
@@ -41,14 +42,20 @@ private:
     };
 
 public:
+    bool lan = false;
+    bool change_init = true;
+    int instance_num = 0;
     EAMLS(DataLoader &dataLoader, int p_size);
     void init_pop(int p_size, int n_site);
+    void init_pop_lan(int p_size, int n_site);
+    void random_vector(int n_site, int m_value, unordered_set<unsigned int> &random_vec);
     double calculate_fitness(const vector<unsigned char> &solution, double alpha, bool symbol, int solution_index);
     int readjust_single_solution_order(const vector<unsigned char> &solution,
                                        unordered_map<int, vector<pair<int, double> > > &s_order_map);
 //    void get_all_solution_order_map();
 
-    static bool pair_cmp(const pair<int, double> &x, const pair<int, double> &y);
+    static bool pair_cmp_big(const pair<int, double> &x, const pair<int, double> &y);
+    static bool pair_cmp_small(const pair<int, double> &x, const pair<int, double> &y);
     static bool fixed_cost_cmp(const pair<int, int> &x, const pair<int, int> &y);
 
     void mutation(double mutation_rate, unordered_map<int, vector<unsigned char> >& new_pop);
@@ -59,6 +66,10 @@ public:
     static int check_constraint(vector<unsigned char> & solution);
 
     void repair_strategy(vector<unsigned char> & solution, int m_value);
+
+    void repair_strategy_lan(vector<unsigned char> & solution, int m_value);
+
+    double calculate_virtual_fitness(int facility_index);
 
     void get_all_neighbor(const vector<unsigned char> & solution,
                           unordered_set<vector<unsigned char>, vector_hash > & neighbor_set);
@@ -79,6 +90,8 @@ public:
                             unordered_set<vector<unsigned char>, vector_hash> &ls_pop,
                             unordered_map<int, double> &mutation_index_fitness_map, double alpha);
 
+    void neighbor_search(vector<unsigned char> & solution,
+                         unordered_set<vector<unsigned char>, vector_hash>& neighbor_set);
 };
 
 

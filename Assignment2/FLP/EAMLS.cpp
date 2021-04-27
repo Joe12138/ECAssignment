@@ -4,11 +4,13 @@
 
 #include "EAMLS.h"
 #include <algorithm>
+#include <fstream>
 
 EAMLS::EAMLS(DataLoader &dataLoader, int p_size) : m_dataLoader(dataLoader), pop_size(p_size){
     this->num_site = dataLoader.site_num;
 }
 
+// 可以修改为不是随机初始化
 void EAMLS::init_pop(int p_size, int n_site) {
     /**
      * 初始化种群
@@ -41,8 +43,68 @@ void EAMLS::init_pop(int p_size, int n_site) {
     }
 }
 
-bool EAMLS::pair_cmp(const pair<int, double> &x, const pair<int, double> &y) {
+void EAMLS::random_vector(int n_site, int m_value, unordered_set<unsigned int> &random_vec) {
+    default_random_engine generator;
+    generator.seed(time(nullptr));
+    uniform_int_distribution<unsigned int> distribution(0, n_site-1);
+
+    while (random_vec.size()<m_value){
+        unsigned int index = distribution(generator);
+        random_vec.emplace(index);
+    }
+}
+
+void EAMLS::init_pop_lan(int p_size, int n_site) {
+    vector<unsigned char> zero_solution;
+    unsigned char zero = 0;
+    zero_solution.reserve(n_site);
+    for(int i=0; i<n_site; i++){
+        zero_solution.emplace_back(zero);
+    }
+
+    default_random_engine generator;
+    generator.seed(time(nullptr));
+    uniform_int_distribution<int> distribution(0, n_site-1);
+
+    if(n_site <= p_size){
+        for(int i=0; i<p_size; i++){
+            int m_value = 2+i;
+            if(m_value > n_site){
+                m_value = distribution(generator);
+            }
+            unordered_set<unsigned int> random_index_set;
+            this->random_vector(n_site, m_value, random_index_set);
+
+            vector<unsigned char> new_solution = zero_solution;
+            for(unsigned int index: random_index_set){
+                new_solution[index] = 1;
+            }
+            this->pop.emplace(i, new_solution);
+        }
+    }else{
+        for(int i=0; i<p_size; i++){
+            int m_value = 2*(1+i);
+            if(m_value > n_site){
+                m_value = distribution(generator);
+            }
+            unordered_set<unsigned int> random_index_set;
+            this->random_vector(n_site, m_value, random_index_set);
+
+            vector<unsigned char> new_solution = zero_solution;
+            for(unsigned int index: random_index_set){
+                new_solution[index] = 1;
+            }
+            this->pop.emplace(i, new_solution);
+        }
+    }
+}
+
+bool EAMLS::pair_cmp_big(const pair<int, double> &x, const pair<int, double> &y) {
     return x.second > y.second;
+}
+
+bool EAMLS::pair_cmp_small(const pair<int, double> &x, const pair<int, double> &y) {
+    return x.second < y.second;
 }
 
 int EAMLS::readjust_single_solution_order(const vector<unsigned char> &solution,
@@ -68,7 +130,7 @@ int EAMLS::readjust_single_solution_order(const vector<unsigned char> &solution,
             facility_dist_vector.emplace_back(j, dist);
          }
 
-         sort(facility_dist_vector.begin(), facility_dist_vector.end(), pair_cmp);
+         sort(facility_dist_vector.begin(), facility_dist_vector.end(), pair_cmp_small);
 
          s_order_map.emplace(i, facility_dist_vector);
      }
@@ -151,7 +213,12 @@ void EAMLS::mutation(double mutation_rate, unordered_map<int, vector<unsigned ch
         }
         int num_facility = EAMLS::check_constraint(new_individual);
         if(num_facility < 2){
-            this->repair_strategy(new_individual, num_facility);
+            if(this->lan){
+                this->repair_strategy_lan(new_individual, num_facility);
+            }else{
+                this->repair_strategy(new_individual, num_facility);
+            }
+
         }
         new_pop.emplace(p_it.first, new_individual);
         new_individual.clear();
@@ -209,7 +276,7 @@ void EAMLS::memorable_local_search(unordered_map<int, vector<unsigned char>> &pa
         index += 1;
     }
 
-    sort(index_fitness_vector.begin(), index_fitness_vector.end(), pair_cmp);
+    sort(index_fitness_vector.begin(), index_fitness_vector.end(), pair_cmp_big);
 
     int i=0;
     for(const auto & pair_it: index_fitness_vector){
@@ -219,12 +286,30 @@ void EAMLS::memorable_local_search(unordered_map<int, vector<unsigned char>> &pa
         if(set_it == ind_local_search.end()){
 //            unordered_set<vector<unsigned char>, vector_hash> neighbor_inds;
             this->get_all_neighbor(s_it->second, ls_offspring);
+            if(this->lan){
+//                cout << "here" << endl;
+                this->neighbor_search(s_it->second, ls_offspring);
+            }
             i += 1;
             if(i>n){
                 break;
             }
         }
     }
+}
+
+double EAMLS::calculate_virtual_fitness(int facility_index) {
+    const auto f_it = this->m_dataLoader.site_info_map.find(facility_index);
+    double fitness = f_it->second.fixed_cost;
+
+    for(int i=0; i<this->num_site; i++){
+        if(i!=facility_index){
+            const auto site_it = this->m_dataLoader.site_info_map.find(i);
+            fitness += site_it->second.demand*this->m_dataLoader.site_transCost_map.find(make_pair(facility_index, i))->second;
+        }
+    }
+
+    return fitness;
 }
 
 void EAMLS::repair_strategy(vector<unsigned char> &solution, int m_value) {
@@ -248,6 +333,28 @@ void EAMLS::repair_strategy(vector<unsigned char> &solution, int m_value) {
     }
 }
 
+void EAMLS::repair_strategy_lan(vector<unsigned char> &solution, int m_value) {
+    vector<pair<int, double> > site_fitness_vector;
+    for(const auto & s_it: this->m_dataLoader.site_info_map){
+        site_fitness_vector.emplace_back(make_pair(s_it.first, this->calculate_virtual_fitness(s_it.first)));
+    }
+
+    sort(site_fitness_vector.begin(), site_fitness_vector.end(), pair_cmp_small);
+
+    if(m_value==0){
+        solution[site_fitness_vector[0].first] = 1;
+        solution[site_fitness_vector[1].first] = 1;
+    }else if(m_value==1){
+        if(solution[site_fitness_vector[0].first] == 1){
+            solution[site_fitness_vector[1].first] = 1;
+        }else{
+            solution[site_fitness_vector[0].first] = 1;
+        }
+    }else{
+        cout << "Something error! No need to do repair lan operation!" << endl;
+    }
+}
+
 void EAMLS::get_all_neighbor(const vector<unsigned char> &solution,
                              unordered_set<vector<unsigned char>, vector_hash> &neighbor_set) {
     for(int i=0; i<solution.size(); i++){
@@ -257,11 +364,84 @@ void EAMLS::get_all_neighbor(const vector<unsigned char> &solution,
 
         int m_value = EAMLS::check_constraint(neighbor_solution);
         if(m_value < 2){
-            this->repair_strategy(neighbor_solution, m_value);
+            if(this->lan){
+                this->repair_strategy_lan(neighbor_solution, m_value);
+            }else{
+                this->repair_strategy(neighbor_solution, m_value);
+            }
+
         }
 
         neighbor_set.emplace(neighbor_solution);
     }
+
+//    if(this->lan){
+//        int m_value = 0;
+//        vector<unsigned char> b_s;
+//        for(unsigned char i : solution){
+//            if(i==1){
+//                m_value += 1;
+//            }
+//            b_s.emplace_back(0);
+//        }
+//
+//        vector<pair<int, double> > site_fitness_vector;
+//        for(const auto & s_it: this->m_dataLoader.site_info_map){
+//            site_fitness_vector.emplace_back(make_pair(s_it.first, this->calculate_virtual_fitness(s_it.first)));
+//        }
+//
+//        sort(site_fitness_vector.begin(), site_fitness_vector.end(), pair_cmp_small);
+//
+//        for(int i=0; i<m_value; i++){
+//            b_s[site_fitness_vector[i].first] = 1;
+//        }
+//
+//        neighbor_set.emplace(b_s);
+//    }
+
+    neighbor_set.emplace(solution);
+}
+
+void EAMLS::neighbor_search(vector<unsigned char> &solution,
+                            unordered_set<vector<unsigned char>, vector_hash> &neighbor_set) {
+    vector<int> one_vector;
+    vector<int> zero_vector;
+    size_t origin_size = neighbor_set.size();
+    for(int i=0; i<solution.size(); i++){
+        if(solution[i]==1){
+            one_vector.emplace_back(i);
+        }else{
+            zero_vector.emplace_back(i);
+        }
+    }
+
+    default_random_engine generator;
+    generator.seed(time(nullptr));
+    uniform_int_distribution<unsigned int> one_dist(0, one_vector.size()-1);
+    uniform_int_distribution<unsigned int> zero_dist(0, zero_vector.size()-1);
+    int num = 0;
+    while(neighbor_set.size()<=this->pop_size/4+origin_size){
+        unsigned int current_size = neighbor_set.size();
+        unsigned int one_index = one_dist(generator);
+        unsigned int zero_index = zero_dist(generator);
+
+        vector<unsigned char> new_solution = solution;
+        new_solution[one_index] = 0;
+        new_solution[zero_index] = 1;
+
+        neighbor_set.emplace(new_solution);
+
+        if(current_size == neighbor_set.size()){
+            num += 1;
+            if(num >= 5){
+                break;
+            }
+        }else{
+            num = 0;
+        }
+
+    }
+//    cout << "Out of loop" << endl;
 }
 
 double EAMLS::get_l3_value(unordered_map<int, vector<unsigned char>> &pop_after_selection,
@@ -303,7 +483,7 @@ void EAMLS::survival_selection(unordered_map<int, vector<unsigned char>> &mutati
         solution_index += 1;
     }
 
-    sort(index_fitness_vector.begin(), index_fitness_vector.end(), pair_cmp);
+    sort(index_fitness_vector.begin(), index_fitness_vector.end(), pair_cmp_big);
 
     this->pop.clear();
     this->index_fitness_map.clear();
@@ -320,7 +500,21 @@ void EAMLS::survival_selection(unordered_map<int, vector<unsigned char>> &mutati
 }
 
 double EAMLS::EA_with_MLS(int generation_num, double mutation_rate, double beta, int step_size, int n) {
-    this->init_pop(this->pop_size, this->num_site);
+    string file_name = R"(E:\2021_spring\Evolutional Computing\ECAssignment\Assignment2\FLP\Result\Detail\50_0_true\Generation_)" + to_string(time(nullptr)) + ".txt";
+    ofstream f;
+    f.open(file_name);
+    f.close();
+
+    fstream f1;
+    f1.open(file_name, ios::out);
+    f1 << "Num_site=" << this->num_site << ", instance_num=" << this->instance_num << ", lan_init=" << this->change_init << endl;
+
+    if(this->change_init){
+        this->init_pop_lan(this->pop_size, this->num_site);
+    }else{
+        this->init_pop(this->pop_size, this->num_site);
+    }
+
     unordered_set<vector<unsigned char>, vector_hash> all_neighbor_inds;
 //    unordered_map<int, double> index_fitness
     this->evaluate_pop(this->pop, this->index_fitness_map, this->alpha_value);
@@ -350,6 +544,14 @@ double EAMLS::EA_with_MLS(int generation_num, double mutation_rate, double beta,
         pop_after_mutation.clear();
         mutation_index_fitness_map.clear();
         ls_offspring.clear();
+
+        double fitness_value = 0.0;
+        for(const auto & it: this->index_fitness_map){
+            if(it.second > fitness_value){
+                fitness_value = it.second;
+            }
+        }
+        f1 << 1/fitness_value << endl;
     }
 
 //    vector<pair<int, double> > s_f_vector;
@@ -359,7 +561,7 @@ double EAMLS::EA_with_MLS(int generation_num, double mutation_rate, double beta,
             fitness_value = it.second;
         }
     }
-//    sort(s_f_vector.begin(), s_f_vector.end(), pair_cmp);
+//    sort(s_f_vector.begin(), s_f_vector.end(), pair_cmp_big);
 
 //    cout << s_f_vector[0].first << "=" << 1/s_f_vector[0].second << endl;
 //
@@ -370,7 +572,7 @@ double EAMLS::EA_with_MLS(int generation_num, double mutation_rate, double beta,
 //    }
 //    cout << endl;
 //    cout << "***********************************" << endl;
-
+    f1.close();
     return 1/fitness_value;
 
 }

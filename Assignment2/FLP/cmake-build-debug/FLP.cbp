@@ -80,6 +80,12 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="E:/2021_spring/Evolutional Computing/ECAssignment/Assignment2/FLP/BruteForce.cpp">
+			<Option target="FLP"/>
+		</Unit>
+		<Unit filename="E:/2021_spring/Evolutional Computing/ECAssignment/Assignment2/FLP/BruteForce.h">
+			<Option target="FLP"/>
+		</Unit>
 		<Unit filename="E:/2021_spring/Evolutional Computing/ECAssignment/Assignment2/FLP/DataLoader.cpp">
 			<Option target="FLP"/>
 		</Unit>

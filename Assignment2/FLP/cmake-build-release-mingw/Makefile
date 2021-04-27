@@ -57,19 +57,19 @@ cmake_force:
 SHELL = cmd.exe
 
 # The CMake executable.
-CMAKE_COMMAND = "D:\CLion 2021.1\bin\cmake\win\bin\cmake.exe"
+CMAKE_COMMAND = "D:\CLion 2019.3.1\bin\cmake\win\bin\cmake.exe"
 
 # The command to remove a file.
-RM = "D:\CLion 2021.1\bin\cmake\win\bin\cmake.exe" -E rm -f
+RM = "D:\CLion 2019.3.1\bin\cmake\win\bin\cmake.exe" -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = G:\EvolutionaryAlgorithm\ECAssignment\Assignment2\FLP
+CMAKE_SOURCE_DIR = "E:\2021_spring\Evolutional Computing\ECAssignment\Assignment2\FLP"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = G:\EvolutionaryAlgorithm\ECAssignment\Assignment2\FLP\cmake-build-release-mingw
+CMAKE_BINARY_DIR = "E:\2021_spring\Evolutional Computing\ECAssignment\Assignment2\FLP\cmake-build-release-mingw"
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -77,7 +77,7 @@ CMAKE_BINARY_DIR = G:\EvolutionaryAlgorithm\ECAssignment\Assignment2\FLP\cmake-b
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	"D:\CLion 2021.1\bin\cmake\win\bin\cmake.exe" --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	"D:\CLion 2019.3.1\bin\cmake\win\bin\cmake.exe" --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -88,7 +88,7 @@ rebuild_cache/fast: rebuild_cache
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	"D:\CLion 2021.1\bin\cmake\win\bin\cmake.exe" -E echo "No interactive CMake dialog available."
+	"D:\CLion 2019.3.1\bin\cmake\win\bin\cmake.exe" -E echo "No interactive CMake dialog available."
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -98,9 +98,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start G:\EvolutionaryAlgorithm\ECAssignment\Assignment2\FLP\cmake-build-release-mingw\CMakeFiles G:\EvolutionaryAlgorithm\ECAssignment\Assignment2\FLP\cmake-build-release-mingw\\CMakeFiles\progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start "E:\2021_spring\Evolutional Computing\ECAssignment\Assignment2\FLP\cmake-build-release-mingw\CMakeFiles" "E:\2021_spring\Evolutional Computing\ECAssignment\Assignment2\FLP\cmake-build-release-mingw\\CMakeFiles\progress.marks"
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start G:\EvolutionaryAlgorithm\ECAssignment\Assignment2\FLP\cmake-build-release-mingw\CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start "E:\2021_spring\Evolutional Computing\ECAssignment\Assignment2\FLP\cmake-build-release-mingw\CMakeFiles" 0
 .PHONY : all
 
 # The main clean target
@@ -140,6 +140,33 @@ FLP: cmake_check_build_system
 FLP/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\FLP.dir\build.make CMakeFiles/FLP.dir/build
 .PHONY : FLP/fast
+
+BruteForce.obj: BruteForce.cpp.obj
+
+.PHONY : BruteForce.obj
+
+# target to build an object file
+BruteForce.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\FLP.dir\build.make CMakeFiles/FLP.dir/BruteForce.cpp.obj
+.PHONY : BruteForce.cpp.obj
+
+BruteForce.i: BruteForce.cpp.i
+
+.PHONY : BruteForce.i
+
+# target to preprocess a source file
+BruteForce.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\FLP.dir\build.make CMakeFiles/FLP.dir/BruteForce.cpp.i
+.PHONY : BruteForce.cpp.i
+
+BruteForce.s: BruteForce.cpp.s
+
+.PHONY : BruteForce.s
+
+# target to generate assembly for a file
+BruteForce.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\FLP.dir\build.make CMakeFiles/FLP.dir/BruteForce.cpp.s
+.PHONY : BruteForce.cpp.s
 
 DataLoader.obj: DataLoader.cpp.obj
 
@@ -231,6 +258,9 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... FLP
+	@echo ... BruteForce.obj
+	@echo ... BruteForce.i
+	@echo ... BruteForce.s
 	@echo ... DataLoader.obj
 	@echo ... DataLoader.i
 	@echo ... DataLoader.s
