@@ -141,6 +141,33 @@ FLP/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\FLP.dir\build.make CMakeFiles/FLP.dir/build
 .PHONY : FLP/fast
 
+BruteForce.obj: BruteForce.cpp.obj
+
+.PHONY : BruteForce.obj
+
+# target to build an object file
+BruteForce.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\FLP.dir\build.make CMakeFiles/FLP.dir/BruteForce.cpp.obj
+.PHONY : BruteForce.cpp.obj
+
+BruteForce.i: BruteForce.cpp.i
+
+.PHONY : BruteForce.i
+
+# target to preprocess a source file
+BruteForce.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\FLP.dir\build.make CMakeFiles/FLP.dir/BruteForce.cpp.i
+.PHONY : BruteForce.cpp.i
+
+BruteForce.s: BruteForce.cpp.s
+
+.PHONY : BruteForce.s
+
+# target to generate assembly for a file
+BruteForce.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\FLP.dir\build.make CMakeFiles/FLP.dir/BruteForce.cpp.s
+.PHONY : BruteForce.cpp.s
+
 DataLoader.obj: DataLoader.cpp.obj
 
 .PHONY : DataLoader.obj
@@ -231,6 +258,9 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... FLP
+	@echo ... BruteForce.obj
+	@echo ... BruteForce.i
+	@echo ... BruteForce.s
 	@echo ... DataLoader.obj
 	@echo ... DataLoader.i
 	@echo ... DataLoader.s

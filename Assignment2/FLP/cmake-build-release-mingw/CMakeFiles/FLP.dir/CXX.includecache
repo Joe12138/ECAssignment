@@ -6,11 +6,7 @@
 
 #IncludeRegexTransform: 
 
-E:/2021_spring/Evolutional Computing/ECAssignment/Assignment2/FLP/BruteForce.h
-EAMLS.h
-E:/2021_spring/Evolutional Computing/ECAssignment/Assignment2/FLP/EAMLS.h
-
-E:/2021_spring/Evolutional Computing/ECAssignment/Assignment2/FLP/DataLoader.h
+G:/EvolutionaryAlgorithm/ECAssignment/Assignment2/FLP/DataLoader.h
 iostream
 -
 unordered_map
@@ -20,17 +16,17 @@ string
 vector
 -
 
-E:/2021_spring/Evolutional Computing/ECAssignment/Assignment2/FLP/EAMLS.cpp
+G:/EvolutionaryAlgorithm/ECAssignment/Assignment2/FLP/EAMLS.cpp
 EAMLS.h
-E:/2021_spring/Evolutional Computing/ECAssignment/Assignment2/FLP/EAMLS.h
+G:/EvolutionaryAlgorithm/ECAssignment/Assignment2/FLP/EAMLS.h
 algorithm
 -
 fstream
 -
 
-E:/2021_spring/Evolutional Computing/ECAssignment/Assignment2/FLP/EAMLS.h
+G:/EvolutionaryAlgorithm/ECAssignment/Assignment2/FLP/EAMLS.h
 DataLoader.h
-E:/2021_spring/Evolutional Computing/ECAssignment/Assignment2/FLP/DataLoader.h
+G:/EvolutionaryAlgorithm/ECAssignment/Assignment2/FLP/DataLoader.h
 random
 -
 vector
@@ -41,16 +37,4 @@ cmath
 -
 unordered_set
 -
-
-E:/2021_spring/Evolutional Computing/ECAssignment/Assignment2/FLP/main.cpp
-iostream
--
-fstream
--
-DataLoader.h
-E:/2021_spring/Evolutional Computing/ECAssignment/Assignment2/FLP/DataLoader.h
-EAMLS.h
-E:/2021_spring/Evolutional Computing/ECAssignment/Assignment2/FLP/EAMLS.h
-BruteForce.h
-E:/2021_spring/Evolutional Computing/ECAssignment/Assignment2/FLP/BruteForce.h
 
