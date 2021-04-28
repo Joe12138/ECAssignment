@@ -2,7 +2,7 @@
 #include <fstream>
 #include "DataLoader.h"
 #include "EAMLS.h"
-#include "BruteForce.h"
+#include <unistd.h>
 
 typedef struct parameter{
     int pop_size;
@@ -66,14 +66,14 @@ int main() {
     };
 
     unordered_map<int, PARAMETER> site_num_parameter_map = {
-//            {10,  ten_instance}
+            {10,  ten_instance}
 //            {30, thirty_instance}
-            {50,  fifty_instance}
+//            {50,  fifty_instance}
 //            {100, hundred_instance},
 //            {600, six_hundred_instance}
     };
 
-    string file_name = R"(E:\2021_spring\Evolutional Computing\ECAssignment\Assignment2\FLP\Result\Total\)" + to_string(time(nullptr)) + ".csv";
+    string file_name = R"(E:\2021_spring\Evolutional Computing\ECAssignment\Assignment2\FLP\Result\Total\lan_init_true_)" + to_string(time(nullptr)) + ".csv";
     ofstream f;
     f.open(file_name);
     f.close();
@@ -115,6 +115,8 @@ int main() {
                 double objective_value = eamls.EA_with_MLS(it.second.generation_number, it.second.mutation_size, it.second.beta,
                                                                it.second.step_size, it.second.n);
                 objective_value_vector.emplace_back(objective_value);
+                sleep(1);
+//                break;
             }
             string content = "Instance" + to_string(i) + ",";
             for(double k: objective_value_vector){

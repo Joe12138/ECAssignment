@@ -64,7 +64,7 @@ void EAMLS::init_pop_lan(int p_size, int n_site) {
 
     default_random_engine generator;
     generator.seed(time(nullptr));
-    uniform_int_distribution<int> distribution(0, n_site-1);
+    uniform_int_distribution<int> distribution(2, n_site-1);
 
     if(n_site <= p_size){
         for(int i=0; i<p_size; i++){
@@ -500,7 +500,7 @@ void EAMLS::survival_selection(unordered_map<int, vector<unsigned char>> &mutati
 }
 
 double EAMLS::EA_with_MLS(int generation_num, double mutation_rate, double beta, int step_size, int n) {
-    string file_name = R"(E:\2021_spring\Evolutional Computing\ECAssignment\Assignment2\FLP\Result\Detail\50_0_true\Generation_)" + to_string(time(nullptr)) + ".txt";
+    string file_name = R"(E:\2021_spring\Evolutional Computing\ECAssignment\Assignment2\FLP\Result\Detail\10_0_true\lan_init_true_)" + to_string(time(nullptr)) + ".txt";
     ofstream f;
     f.open(file_name);
     f.close();
@@ -545,13 +545,20 @@ double EAMLS::EA_with_MLS(int generation_num, double mutation_rate, double beta,
         mutation_index_fitness_map.clear();
         ls_offspring.clear();
 
-        double fitness_value = 0.0;
+        double object_value = INT32_MAX;
         for(const auto & it: this->index_fitness_map){
-            if(it.second > fitness_value){
-                fitness_value = it.second;
+            if(1/it.second < object_value){
+//                cout << 1/it.second << endl;
+                object_value = 1/it.second;
+                if(object_value==0){
+                    cout << "something wrong" << endl;
+                    vector<unsigned char> s = this->pop.find(it.first)->second;
+                }
             }
         }
-        f1 << 1/fitness_value << endl;
+
+        f1 << object_value << endl;
+//        cout << object_value <<endl;
     }
 
 //    vector<pair<int, double> > s_f_vector;
