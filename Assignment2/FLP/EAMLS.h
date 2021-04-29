@@ -1,5 +1,5 @@
 //
-// Created by lan on 2021/3/30.
+// Created by neighborhood_lan on 2021/3/30.
 //
 
 #ifndef FLP_EAMLS_H
@@ -42,9 +42,11 @@ private:
     };
 
 public:
-    bool lan = false;
+    bool neighborhood_lan = false;
+    bool repair_lan = false;
     bool change_init = true;
     int instance_num = 0;
+    int num_repair_operation = 0;
     EAMLS(DataLoader &dataLoader, int p_size);
     void init_pop(int p_size, int n_site);
     void init_pop_lan(int p_size, int n_site);
@@ -83,8 +85,8 @@ public:
 
     double EA_with_MLS(int generation_num, double mutation_rate, double beta, int step_size, int n);
 
-    double get_l3_value(unordered_map<int, vector<unsigned char> > & pop_after_selection,
-                        unordered_set<vector<unsigned char>, vector_hash> &all_neighbor_inds) const;
+    static double get_l3_value(unordered_map<int, vector<unsigned char> > & pop_after_selection,
+                        unordered_set<vector<unsigned char>, vector_hash> &all_neighbor_inds) ;
 
     void survival_selection(unordered_map<int, vector<unsigned char>> &mutation_pop,
                             unordered_set<vector<unsigned char>, vector_hash> &ls_pop,

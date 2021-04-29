@@ -7,7 +7,7 @@ path = "G:\\EvolutionaryAlgorithm\\ECAssignment\\Assignment2\\FLP\\Result\\Total
 
 # file_list = ['10_init_pop_F_T.csv', '10_MY_HU.csv', '50_init_pop_F_T.csv', '50_MY_HU.csv', '50_MYINIT_HU.csv']
 path = "G:\\EvolutionaryAlgorithm\\ECAssignment\\Assignment2\\Compare Result"
-file_list = ['50_MY_HU.csv']
+file_list = ['50_neighborhood.csv']
 
 for file2 in file_list:
     print(file2)
