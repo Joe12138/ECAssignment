@@ -1,1 +1,0 @@
-Num_site=50, instance_num=0, lan_init=0

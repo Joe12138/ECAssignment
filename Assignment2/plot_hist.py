@@ -1,49 +1,53 @@
 from matplotlib import pyplot as plt
 
 eamls_average = [
-    19673.72982,
-20464.72672,
-20093.79769,
-19554.68671,
-21921.81548,
-20332.5684,
-18170.51014,
-19700.02205
+27224.66795,
+26952.62241,
+25299.17459,
+24867.76599,
+27893.683,
+26515.84881,
+24053.98711,
+25535.90531
+
+
 ]
 
 myinit_avg = [
-    10158.37061,
-10715.52706,
-10424.86849,
-10356.89923,
-11300.78193,
-10907.38999,
-10361.82205,
-9548.387283
+24164.80025,
+23950.89367,
+22418.88754,
+22371.04807,
+24943.67661,
+23826.18138,
+22247.11623,
+22514.79949
 
 ]
 
 eamls_best = [
-    15732.85533,
-16586.81313,
-17287.32078,
-17685.48094,
-18006.63756,
-14313.52,
-15888.07594,
-16432.33933
+20908.21658,
+21086.47411,
+19524.1847,
+19420.10882,
+21804.96697,
+20196.98053,
+18096.78863,
+19402.33389
+
 
 ]
 
 myinit_best = [
-    7704.960748,
-8734.930623,
-8950.986174,
-9027.602454,
-9653.770612,
-9091.78406,
-9114.029666,
-8510.211451
+10392.69481,
+10294.65323,
+9725.532135,
+10424.27541,
+11227.51768,
+10900.12428,
+11518.87344,
+9446.761963
+
 
 ]
 
@@ -55,9 +59,9 @@ index = [i for i in range(8)]
 
 index2 = [i+bar_width for i in index]
 
-plt.bar(index, eamls_average, bar_width, label='Init Method In [1]')
+plt.bar(index, eamls_best, bar_width, label='Init Method In [1]')
 
-plt.bar(index2, myinit_avg,bar_width, label='My Init Method')
+plt.bar(index2, myinit_best,bar_width, label='My Init Method')
 
 def add_labels(rects):
     for rect in rects:
@@ -68,8 +72,8 @@ def add_labels(rects):
 plt.legend()
 
 plt.xlabel('Instance No.')
-plt.ylabel('Average Objective Value')
+plt.ylabel('Best Objective Value')
 
 
 # plt.show()
-plt.savefig('./init_data_avg.png', dpi=800)
+plt.savefig('./init_data_best.png', dpi=800)

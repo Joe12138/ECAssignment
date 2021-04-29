@@ -13,7 +13,7 @@
 
 class EAMLS {
     // alpha = 1
-private:
+public:
     // population
     unordered_map<int, vector<unsigned char> > pop;
     // solution and its corresponding facility number
@@ -42,9 +42,9 @@ private:
     };
 
 public:
-    bool neighborhood_lan = false;
+    bool neighborhood_lan = true;
     bool repair_lan = false;
-    bool change_init = true;
+    bool change_init = false;
     int instance_num = 0;
     int num_repair_operation = 0;
     EAMLS(DataLoader &dataLoader, int p_size);

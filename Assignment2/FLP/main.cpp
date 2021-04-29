@@ -48,6 +48,16 @@ int main() {
             8
     };
 
+    PARAMETER seventy_instance = {
+            20,
+            0.1,
+            10,
+            0.8,
+            100,
+            25,
+            8
+    };
+
     PARAMETER hundred_instance = {
             100,
             0.1,
@@ -73,10 +83,11 @@ int main() {
 //            {30, thirty_instance}
             {50,  fifty_instance}
 //            {100, hundred_instance}
+//            {70, seventy_instance}
 //            {600, six_hundred_instance}
     };
 
-    string file_name = R"(G:\EvolutionaryAlgorithm\ECAssignment\Assignment2\FLP\Result\Total\50_lan_init_true_)" + to_string(time(nullptr)) + ".csv";
+    string file_name = R"(G:\EvolutionaryAlgorithm\ECAssignment\Assignment2\FLP\Result\Total\50_Neighbor_True_)" + to_string(time(nullptr)) + ".csv";
     ofstream f;
     f.open(file_name);
     f.close();
@@ -95,12 +106,29 @@ int main() {
             int repeat_num = 30;
             vector<double> objective_value_vector;
             vector<int> num_repair_vector;
+//            vector<double> average_obj;
+//            vector<double> best_obj;
             for(int j=0; j<repeat_num; j++){
 //                cout << "Repeated Number = " << j << endl;
                 EAMLS eamls = EAMLS(dataLoader, it.second.pop_size);
                 eamls.instance_num = i;
                 double objective_value = eamls.EA_with_MLS(it.second.generation_number, it.second.mutation_size, it.second.beta,
                                                                it.second.step_size, it.second.n);
+//                eamls.init_pop_lan(eamls.pop_size, eamls.num_site);
+//                eamls.evaluate_pop(eamls.pop, eamls.index_fitness_map, eamls.alpha_value);
+//
+//                double total_obj = 0;
+//                double b_obj = INT32_MAX;
+//                for(auto a: eamls.index_fitness_map){
+//                    total_obj += 1/a.second;
+//                    if(1/a.second < b_obj){
+//                        b_obj = 1/a.second;
+//                    }
+//                }
+//
+//                average_obj.emplace_back(total_obj/eamls.pop_size);
+//                best_obj.emplace_back(b_obj);
+
                 objective_value_vector.emplace_back(objective_value);
                 num_repair_vector.emplace_back(eamls.num_repair_operation);
 //                sleep(1);
@@ -111,6 +139,18 @@ int main() {
                 content += to_string(k) + ",";
             }
             f1 << content << endl;
+//            string avg_content = "Instance_"+ to_string(i)+"_avg"+",";
+//            for (double k: average_obj) {
+//                avg_content += to_string(k) + ",";
+//            }
+//            f1 << avg_content << endl;
+//
+//            string best_content = "Instance_"+ to_string(i)+"_best"+",";
+//            for (double k: best_obj) {
+//                best_content += to_string(k) + ",";
+//            }
+//            f1 << best_content << endl;
+
             int total_num = 0;
             for(int km: num_repair_vector){
                 total_num += km;

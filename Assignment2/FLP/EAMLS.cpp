@@ -451,7 +451,7 @@ void EAMLS::neighbor_search(vector<unsigned char> &solution,
 
         if(new_fitness > solution_fitness){
             neighbor_set.emplace(new_solution);
-            cout << "here" << endl;
+//            cout << "here" << endl;
             number_better_solution += 1;
         }else{
             new_solution[one_index] = (unsigned char)1;
@@ -528,7 +528,7 @@ void EAMLS::survival_selection(unordered_map<int, vector<unsigned char>> &mutati
 }
 
 double EAMLS::EA_with_MLS(int generation_num, double mutation_rate, double beta, int step_size, int n) {
-    string file_name = R"(G:\EvolutionaryAlgorithm\ECAssignment\Assignment2\FLP\Result\Detail\50_True\50_lan_init_True_)" +
+    string file_name = R"(G:\EvolutionaryAlgorithm\ECAssignment\Assignment2\FLP\Result\Detail\50_Neighborhood_True\50_Neighbor_True_)" +
                        to_string(this->num_site) +"_"+
             to_string(this->instance_num)+"_"+to_string(time(nullptr)) + ".txt";
     ofstream f;
