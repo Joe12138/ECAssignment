@@ -69,6 +69,80 @@ eamls_myinit_avg = [
 
 ]
 
+neighbor_abg = [
+    19804.67667,
+17984.34333,
+15220.47333,
+13229.87,
+11624.12333,
+10239.953,
+9135.165,
+8454.376333,
+7953.612333,
+7553.147667,
+7285.425,
+7137.966667,
+7033.123667,
+6953.788,
+6915.941333,
+6881.446,
+6851.109,
+6839.741333,
+6827.383333,
+6815.595333,
+6814.14
+]
+
+neighbor_std = [
+    1618.494362,
+1557.535883,
+1432.500215,
+1325.337958,
+1246.783608,
+1073.110273,
+873.5435525,
+722.1390899,
+563.9937267,
+450.7307822,
+347.2873004,
+276.5831252,
+167.3251942,
+112.6864238,
+90.55404897,
+79.3537775,
+63.22979205,
+54.02824494,
+36.19629699,
+7.837209849,
+4.54747E-12
+
+]
+
+neighbor_best = [
+    16493.5,
+14498.5,
+12086.7,
+10905.3,
+9413.85,
+8356.18,
+7947.2,
+7491.95,
+7134.98,
+6814.14,
+6814.14,
+6814.14,
+6814.14,
+6814.14,
+6814.14,
+6814.14,
+6814.14,
+6814.14,
+6814.14,
+6814.14,
+6814.14
+
+]
+
 eamls_std = [
 1779.587514,
 1555.016992,
@@ -176,20 +250,20 @@ eamls_myinit_best = [
 iter = [i for i in range(0, 21)]
 color = [cm.gnuplot(1),cm.gist_earth(0.5),cm.Wistia(0.55),cm.gist_heat(0.5),cm.Blues(0.4)]
 f, ax = plt.subplots(1, 1)
-ax.plot(iter, eamls_avg, color=color[0],marker='o',linestyle="-",label="EAMLS")
+ax.plot(iter, eamls_best, color=color[0],marker='o',linestyle="-",label="EAMLS")
 # for i in range(len(iter)):
 #         plt.scatter(iter[i], ELS_avg[i],marker='o',color=color[0],s=20)
 
-ax.plot(iter, eamls_myinit_avg, color=color[2], marker='v', linestyle="--", label="EAMLS+My Init")
+ax.plot(iter, neighbor_best, color=color[2], marker='v', linestyle="--", label="EAMLS+My Init")
 # for i in range(len(iter)):
 #         plt.scatter(iter[i], MAELS_H_avg[i],marker='v',color=color[2],s=20)
 
-r1 = list(map(lambda x: x[0] - x[1], zip(eamls_avg, eamls_std)))
-r2 = list(map(lambda x: x[0] + x[1], zip(eamls_avg, eamls_std)))
-r5 = list(map(lambda x: x[0] - x[1], zip(eamls_myinit_avg, eamls_myinit_std)))
-r6 = list(map(lambda x: x[0] + x[1], zip(eamls_myinit_avg, eamls_myinit_std)))
-ax.fill_between(iter, r1, r2, color=color[0], alpha=0.1)
-ax.fill_between(iter, r5, r6, color=color[2], alpha=0.1)
+# r1 = list(map(lambda x: x[0] - x[1], zip(eamls_avg, eamls_std)))
+# r2 = list(map(lambda x: x[0] + x[1], zip(eamls_avg, eamls_std)))
+# r5 = list(map(lambda x: x[0] - x[1], zip(neighbor_abg, neighbor_std)))
+# r6 = list(map(lambda x: x[0] + x[1], zip(neighbor_abg, neighbor_std)))
+# ax.fill_between(iter, r1, r2, color=color[0], alpha=0.1)
+# ax.fill_between(iter, r5, r6, color=color[2], alpha=0.1)
 
 
 """=================================   attribute of   ==============================="""
@@ -204,10 +278,10 @@ handles, labels = ax.get_legend_handles_labels()
 ax.legend(handles, labels)
 fs=9
 ax.set_xlabel('Generation', fontsize=fs)
-ax.set_ylabel('Average Objective Value', fontsize=fs)
+ax.set_ylabel('Best Objective Value', fontsize=fs)
 plt.xticks(fontsize=fs)
 plt.yticks(fontsize=fs)
 ax.legend(fontsize=fs)
 
 plt.show()
-f.savefig(os.path.join('True_False_avg' + '.png'), dpi=600)
+f.savefig(os.path.join('Neighbor_Best' + '.png'), dpi=600)

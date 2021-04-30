@@ -1,0 +1,36 @@
+num_site = 600neighborhood_lan = False
+Instance0,
+Instance1,
+Instance2,
+Instance3,
+
+num_site = 100neighborhood_lan = False
+Instance0,
+Instance1,
+Instance2,
+Instance3,
+Instance4,
+Instance5,
+Instance6,
+Instance7,
+
+num_site = 50neighborhood_lan = False
+Instance0,
+Instance1,
+Instance2,
+Instance3,
+Instance4,
+Instance5,
+Instance6,
+Instance7,
+
+num_site = 10neighborhood_lan = False
+Instance0,
+Instance1,
+Instance2,
+Instance3,
+Instance4,
+Instance5,
+Instance6,
+Instance7,
+

@@ -42,7 +42,7 @@ public:
     };
 
 public:
-    bool neighborhood_lan = true;
+    bool neighborhood_lan = false;
     bool repair_lan = false;
     bool change_init = false;
     int instance_num = 0;
