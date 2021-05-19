@@ -1,0 +1,27 @@
+siteNum=3
+demandLowerBound=0
+demandUpperBound=1000
+fixedCostLowerBound=500
+fixedCostUpperBound=1500
+coordinateLowerBound=0
+coordinateUpperBound=1
+facilityFailProbility=0.01
+Coordinate: index, x, y
+0,-50,0
+1,50,0
+2,0,86.60254037844386
+Demand:index, demand
+0,1
+1,1
+2,1
+Fixcost:index, fixedCost
+0,1
+1,1
+2,1
+TransCost:start_index, end_index, transCost
+0,1,100
+0,2,100
+1,0,100
+1,2,100
+2,0,100
+2,1,100

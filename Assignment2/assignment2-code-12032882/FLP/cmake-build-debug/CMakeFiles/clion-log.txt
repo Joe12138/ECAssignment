@@ -1,0 +1,4 @@
+"D:\CLion 2019.3.1\bin\cmake\win\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - MinGW Makefiles" "E:\2021_spring\Evolutional Computing\ECAssignment\Assignment2\FLP"
+-- Configuring done
+-- Generating done
+-- Build files have been written to: E:/2021_spring/Evolutional Computing/ECAssignment/Assignment2/FLP/cmake-build-debug

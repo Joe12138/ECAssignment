@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+E:/2021_spring/Evolutional Computing/ECAssignment/Assignment3/CEC2021/rand2.c
+stdlib.h
+-
+stdio.h
+-
+string.h
+-
+math.h
+-
+rand2.h
+E:/2021_spring/Evolutional Computing/ECAssignment/Assignment3/CEC2021/rand2.h
+
+E:/2021_spring/Evolutional Computing/ECAssignment/Assignment3/CEC2021/rand2.h
+

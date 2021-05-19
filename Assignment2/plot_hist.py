@@ -59,9 +59,9 @@ index = [i for i in range(8)]
 
 index2 = [i+bar_width for i in index]
 
-plt.bar(index, eamls_best, bar_width, label='Init Method In [1]')
+plt.bar(index, eamls_average, bar_width, label='Init Method In [1]')
 
-plt.bar(index2, myinit_best,bar_width, label='My Init Method')
+plt.bar(index2, myinit_avg,bar_width, label='DPI')
 
 def add_labels(rects):
     for rect in rects:
@@ -72,8 +72,8 @@ def add_labels(rects):
 plt.legend()
 
 plt.xlabel('Instance No.')
-plt.ylabel('Best Objective Value')
+plt.ylabel('Average Objective Value')
 
 
 # plt.show()
-plt.savefig('./init_data_best.png', dpi=800)
+plt.savefig('E:\\2021_spring\\Evolutional Computing\\ReportFinal\\Conference-LaTeX-template_10-17-19\Assignment2\\init_data_avg.png', dpi=800)
